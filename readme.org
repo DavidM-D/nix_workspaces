@@ -3,7 +3,17 @@ This is a collection of my development environments
 If you want to work on a project with a rust and haskell component use the code below.
 
 #+begin_src nix
+{ pkgs ? import <nixpkgs> {}, ... }:
 let
-  workspaces = import ../workspaces {};
-in with workspaces; merge_envs [rust haskell]
+  workspaces_src = pkgs.fetchFromGitHub {
+    owner = "DavidM-D";
+    repo = "nix_workspaces";
+    rev = "04f6bfe8ec9362614a934f4a9fed604c6fe7a5e3";
+    sha256 = "1xjv25m6zjy2vfqav5w78zgs2xd8y10vll7xd92b7zg25h011wxv";
+  };
+  workspaces = import workspaces_src {inherit pkgs;};
+  shell = with workspaces; merge_envs [rust haskell];
+in shell
 #+end_src
+
+Currently this is about as long as the thing you're trying to import, so I wouldn't actually advise anyone uses it.
