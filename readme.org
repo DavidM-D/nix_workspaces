@@ -1,0 +1,9 @@
+This is a collection of my development environments
+
+If you want to work on a project with a rust and haskell component use the code below.
+
+#+begin_src nix
+let
+  workspaces = import ../workspaces {};
+in with workspaces; merge_envs [rust haskell]
+#+end_src
